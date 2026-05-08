@@ -1,5 +1,6 @@
 "use strict";
 
+<<<<<<< HEAD
 /*  STORAGE  */
 
 const STORAGE_KEY = "lr1_items";
@@ -22,6 +23,29 @@ function computeNextId(items) {
   return Math.max(...items.map(i => i.id)) + 1;
 }
 
+=======
+/*  CONFIG  */
+
+const API_URL = "http://localhost:3000/api/items";
+
+/*  STATE  */
+
+let items = [];
+
+/*  LOAD FROM BACKEND  */
+
+async function loadItems() {
+  try {
+    const res = await fetch(API_URL);
+    const data = await res.json();
+    items = data.items;
+    render();
+  } catch (err) {
+    console.error("❌ Помилка завантаження:", err);
+  }
+}
+
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
 /*  XSS SAFE  */
 
 function escapeHtml(text) {
@@ -34,17 +58,24 @@ function escapeHtml(text) {
   }[m]));
 }
 
+<<<<<<< HEAD
 /*  STATE  */
 
 let items = loadFromStorage();
 let nextId = computeNextId(items);
 
+=======
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
 /*  ELEMENTS  */
 
 const createForm = document.getElementById("create-section");
 const tbody = document.getElementById("itemsTableBody");
 const searchInput = document.getElementById("searchInput");
 const sortSelect = document.getElementById("sortSelect");
+<<<<<<< HEAD
+=======
+const sortDirBtn = document.getElementById("sortDirBtn");
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
 let sortDirection = 1;
 
 const modalOverlay = document.getElementById("modalOverlay");
@@ -63,6 +94,7 @@ const field4Error = document.getElementById("field4Error");
 
 /* BUTTON BLOCK */
 
+<<<<<<< HEAD
 const COOLDOWN_SECONDS = 3; 
 const submitBtn = createForm ? createForm.querySelector('button[type="submit"]') : null;
  
@@ -79,6 +111,24 @@ function startSubmitCooldown() {
   const interval = setInterval(() => {
     secondsLeft--;
  
+=======
+const COOLDOWN_SECONDS = 3;
+const submitBtn = createForm ? createForm.querySelector('button[type="submit"]') : null;
+
+function startSubmitCooldown() {
+  if (!submitBtn) return;
+
+  const originalText = submitBtn.textContent;
+  let secondsLeft = COOLDOWN_SECONDS;
+
+  submitBtn.disabled = true;
+  submitBtn.classList.add("btn-cooldown");
+  submitBtn.textContent = `Зачекайте... ${secondsLeft}с`;
+
+  const interval = setInterval(() => {
+    secondsLeft--;
+
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
     if (secondsLeft > 0) {
       submitBtn.textContent = `Зачекайте... ${secondsLeft}с`;
     } else {
@@ -90,6 +140,19 @@ function startSubmitCooldown() {
   }, 1000);
 }
 
+<<<<<<< HEAD
+=======
+/*  SORT DIRECTION  */
+
+if (sortDirBtn) {
+  sortDirBtn.onclick = () => {
+    sortDirection *= -1;
+    sortDirBtn.textContent = sortDirection === 1 ? "⬆" : "⬇";
+    render();
+  };
+}
+
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
 /*  MODAL VIEW  */
 
 function showModal(text) {
@@ -137,6 +200,10 @@ function validateFormValues(values) {
   const errors = {};
   const user = String(values.user || "");
   const text = String(values.text || "");
+<<<<<<< HEAD
+=======
+
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
   if (!user.trim()) errors.user = "Введіть нік";
   else if (user.length > 10) errors.user = "Нік до 10 символів";
 
@@ -162,6 +229,10 @@ createForm.addEventListener("submit", e => {
   };
 
   const { ok, errors } = validateFormValues(values);
+<<<<<<< HEAD
+=======
+
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
   if (!ok) {
     if (errors.user) showFieldError(userInput, errors.user);
     if (errors.severity) showFieldError(severitySelect, errors.severity);
@@ -170,6 +241,7 @@ createForm.addEventListener("submit", e => {
     return;
   }
 
+<<<<<<< HEAD
   const newItem = { id: nextId++, user: values.user, severity: values.severity, status: values.status, text: values.text };
   items.push(newItem);
 
@@ -190,6 +262,48 @@ function deleteItem(id) {
 }
 
 /* EDIT FRAME */
+=======
+  fetch(API_URL, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(values)
+  })
+    .then(res => res.json())
+    .then(data => {
+      console.log("✅ Збережено на сервері:", data);
+      startSubmitCooldown();
+      loadItems();
+      createForm.reset();
+      userInput.focus();
+    })
+    .catch(err => {
+      console.error("❌ Помилка:", err);
+    });
+});
+
+/*  DELETE  */
+
+async function deleteItem(id) {
+  if (!confirm("Видалити запис?")) return;
+
+  try {
+    const res = await fetch(`${API_URL}/${id}`, { method: "DELETE" });
+
+    if (!res.ok) {
+      throw new Error(`Помилка видалення: ${res.status}`);
+    }
+
+    console.log(`✅ Запис ${id} видалено`);
+    loadItems(); // завантажуємо актуальний список з бекенду
+  } catch (err) {
+    console.error("❌ Помилка при видаленні:", err);
+    showModal("Не вдалося видалити запис");
+  }
+}
+
+/* EDIT FRAME */
+
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
 function ensureEditFrameElements() {
   let overlay = document.getElementById("editFrameOverlay");
   if (overlay) {
@@ -308,7 +422,10 @@ function openEditFrameForItem(item) {
 
   [editUser, editSeverity, editStatus, editText].forEach(ensureErrorPlaceholder);
 
+<<<<<<< HEAD
   editText.classList.add("editText");
+=======
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
   editText.style.width = "100%";
   editText.style.minHeight = "260px";
   editText.style.maxHeight = "60vh";
@@ -352,6 +469,7 @@ function openEditFrameForItem(item) {
       return;
     }
 
+<<<<<<< HEAD
     item.user = values.user;
     item.severity = values.severity;
     item.status = values.status;
@@ -360,6 +478,22 @@ function openEditFrameForItem(item) {
     saveToStorage(items);
     closeEditFrame();
     render();
+=======
+    fetch(`${API_URL}/${item.id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(values)
+    })
+      .then(res => res.json())
+      .then(data => {
+        console.log("✅ Оновлено на сервері:", data);
+        closeEditFrame();
+        loadItems();
+      })
+      .catch(err => {
+        console.error("❌ Помилка при оновленні:", err);
+      });
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
   };
 
   saveBtn.onclick = onSave;
@@ -382,6 +516,7 @@ function getProcessedItems() {
   const search = (searchInput.value || "").toLowerCase();
   if (search) result = result.filter(i => (i.user || "").toLowerCase().includes(search));
 
+<<<<<<< HEAD
   const sortDirBtn = document.getElementById("sortDirBtn");
 
   sortDirBtn.onclick = () => {
@@ -391,12 +526,16 @@ function getProcessedItems() {
 };
 
   const filterSelect = document.getElementById("filterSelect"); 
+=======
+  const filterSelect = document.getElementById("filterSelect");
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
   if (filterSelect && filterSelect.value && filterSelect.value !== "all") {
     const val = filterSelect.value;
     result = result.filter(i => i.status === val || i.severity === val);
   }
 
   switch (sortSelect.value) {
+<<<<<<< HEAD
   case "user":
     result.sort((a, b) => sortDirection * a.user.localeCompare(b.user));
     break;
@@ -407,11 +546,27 @@ function getProcessedItems() {
     result.sort((a, b) => sortDirection * a.status.localeCompare(b.status));
     break;
 }
+=======
+    case "user":
+      result.sort((a, b) => sortDirection * a.user.localeCompare(b.user));
+      break;
+    case "severity":
+      result.sort((a, b) => sortDirection * a.severity.localeCompare(b.severity));
+      break;
+    case "status":
+      result.sort((a, b) => sortDirection * a.status.localeCompare(b.status));
+      break;
+  }
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
 
   return result;
 }
 
+<<<<<<< HEAD
 /*  RENDER (uses index+1 for visible numbering)  */
+=======
+/*  RENDER  */
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
 
 function render() {
   tbody.innerHTML = "";
@@ -419,7 +574,11 @@ function render() {
   const processed = getProcessedItems();
   processed.forEach((item, index) => {
     const tr = document.createElement("tr");
+<<<<<<< HEAD
     tr.dataset.id = item.id;
+=======
+    tr.dataset.id = item.id; // зберігаємо UUID як рядок
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
 
     tr.innerHTML = `
       <td>${index + 1}</td>
@@ -444,7 +603,11 @@ tbody.addEventListener("click", e => {
   if (!btn) return;
   const tr = e.target.closest("tr");
   if (!tr) return;
+<<<<<<< HEAD
   const id = Number(tr.dataset.id);
+=======
+  const id = tr.dataset.id; // UUID як рядок, без Number()
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
   if (!id) return;
 
   if (btn.classList.contains("deleteBtn")) {
@@ -463,10 +626,17 @@ tbody.addEventListener("click", e => {
 searchInput.oninput = render;
 sortSelect.onchange = render;
 
+<<<<<<< HEAD
 /* If you added a filter select in HTML with id="filterSelect", bind it */
+=======
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
 const filterSelect = document.getElementById("filterSelect");
 if (filterSelect) filterSelect.onchange = render;
 
 /*  START  */
 
+<<<<<<< HEAD
 render();
+=======
+loadItems();
+>>>>>>> 038e39ce293f0e3c10d1a8830064245538baf13c
