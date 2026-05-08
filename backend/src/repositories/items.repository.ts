@@ -1,5 +1,8 @@
+<<<<<<< HEAD
 import { v4 as uuidv4 } from "uuid";
 import { all, get, run, logSql } from "../db/dbClient";
+=======
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
 import { Severity, Status } from "../dtos/items.dto";
 
 export interface ItemEntity {
@@ -11,6 +14,7 @@ export interface ItemEntity {
   createdAt: string;
 }
 
+<<<<<<< HEAD
 export interface ItemWithCommentCount extends ItemEntity {
   commentCount: number;
 }
@@ -165,5 +169,35 @@ export const itemsRepository = {
   async remove(id: string): Promise<boolean> {
     const result = await run(`DELETE FROM Items WHERE id = '${esc(id)}';`);
     return result.changes > 0;
+=======
+const items: ItemEntity[] = [];
+
+export const itemsRepository = {
+  getAll(): ItemEntity[] {
+    return items;
+  },
+
+  getById(id: string): ItemEntity | undefined {
+    return items.find((i) => i.id === id);
+  },
+
+  add(item: ItemEntity): ItemEntity {
+    items.push(item);
+    return item;
+  },
+
+  update(id: string, data: Partial<ItemEntity>): ItemEntity | undefined {
+    const item = items.find((i) => i.id === id);
+    if (!item) return undefined;
+    Object.assign(item, data);
+    return item;
+  },
+
+  remove(id: string): boolean {
+    const index = items.findIndex((i) => i.id === id);
+    if (index === -1) return false;
+    items.splice(index, 1);
+    return true;
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
   },
 };

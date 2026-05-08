@@ -1,6 +1,9 @@
+<<<<<<< HEAD
 import { v4 as uuidv4 } from "uuid";
 import { all, get, run } from "../db/dbClient";
 
+=======
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
 export interface UserEntity {
   id: string;
   name: string;
@@ -8,6 +11,7 @@ export interface UserEntity {
   createdAt: string;
 }
 
+<<<<<<< HEAD
 // Екранує одинарні лапки: O'Brien → O''Brien (стандарт SQL).
 function esc(s: string): string {
   return String(s).replace(/'/g, "''");
@@ -53,5 +57,35 @@ export const usersRepository = {
   async remove(id: string): Promise<boolean> {
     const result = await run(`DELETE FROM Users WHERE id = '${esc(id)}';`);
     return result.changes > 0;
+=======
+const users: UserEntity[] = [];
+
+export const usersRepository = {
+  getAll(): UserEntity[] {
+    return users;
+  },
+
+  getById(id: string): UserEntity | undefined {
+    return users.find((u) => u.id === id);
+  },
+
+  add(user: UserEntity): UserEntity {
+    users.push(user);
+    return user;
+  },
+
+  update(id: string, data: Partial<UserEntity>): UserEntity | undefined {
+    const user = users.find((u) => u.id === id);
+    if (!user) return undefined;
+    Object.assign(user, data);
+    return user;
+  },
+
+  remove(id: string): boolean {
+    const index = users.findIndex((u) => u.id === id);
+    if (index === -1) return false;
+    users.splice(index, 1);
+    return true;
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
   },
 };

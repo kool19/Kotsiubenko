@@ -7,7 +7,10 @@ export function errorHandler(
   res: Response,
   _next: NextFunction,
 ): void {
+<<<<<<< HEAD
   // 1. Власні ApiError (404, 400 тощо) — кидаються у сервісах
+=======
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
   if (err instanceof ApiError) {
     res.status(err.status).json({
       error: {
@@ -19,6 +22,7 @@ export function errorHandler(
     return;
   }
 
+<<<<<<< HEAD
   const msg = String((err as Error)?.message ?? err);
 
   // 2. UNIQUE constraint failed → 409 Conflict
@@ -55,6 +59,8 @@ export function errorHandler(
   }
 
   // 6. Все інше → 500
+=======
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
   console.error("Unhandled error:", err);
   res.status(500).json({
     error: {

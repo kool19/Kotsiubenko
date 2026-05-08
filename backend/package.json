@@ -1,13 +1,21 @@
 {
   "name": "lr2-api-ts",
+<<<<<<< HEAD
   "version": "0.3.0",
   "description": "Lab 3 — REST API з SQLite (TypeScript)",
+=======
+  "version": "1.0.0",
+  "description": "Lab 2 — REST API without DB (TypeScript)",
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
   "main": "dist/index.js",
   "scripts": {
     "dev": "tsx watch src/index.ts",
     "build": "tsc",
     "start": "node dist/index.js",
+<<<<<<< HEAD
     "seed": "tsx src/db/seed.ts",
+=======
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
     "lint": "eslint . --ext .ts",
     "format": "prettier -w .",
     "test": "vitest run",
@@ -19,7 +27,10 @@
   "dependencies": {
     "cors": "^2.8.5",
     "express": "^4.18.2",
+<<<<<<< HEAD
     "sqlite3": "^5.1.7",
+=======
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.0",
     "uuid": "^9.0.0"
@@ -28,7 +39,10 @@
     "@types/cors": "^2.8.17",
     "@types/express": "^4.17.21",
     "@types/node": "^20.11.0",
+<<<<<<< HEAD
     "@types/sqlite3": "^3.1.11",
+=======
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
     "@types/swagger-jsdoc": "^6.0.4",
     "@types/swagger-ui-express": "^4.1.6",
     "@types/uuid": "^9.0.7",

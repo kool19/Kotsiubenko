@@ -187,6 +187,7 @@ curl -i -X POST http://localhost:3000/api/items \
 
 ```
 src/
+<<<<<<< HEAD
   index.ts                    # entry point: bootstrap → migrate() → listen()
   swagger.ts                  # OpenAPI специфікація
   db/
@@ -230,6 +231,28 @@ src/
     users.service.test.ts
 data/
   app.db                      # ← створюється автоматично
+=======
+├── index.ts                        # Точка входу, ініціалізація Express
+├── routes/
+│   ├── users.routes.ts             # Маршрути /api/users
+│   └── items.routes.ts             # Маршрути /api/items
+├── controllers/
+│   ├── users.controller.ts         # HTTP-шар для users
+│   └── items.controller.ts         # HTTP-шар для items
+├── services/
+│   ├── users.service.ts            # Бізнес-логіка + валідація users
+│   └── items.service.ts            # Бізнес-логіка + валідація items
+├── repositories/
+│   ├── users.repository.ts         # In-memory сховище users
+│   └── items.repository.ts         # In-memory сховище items
+├── dtos/
+│   ├── users.dto.ts                # DTO для users
+│   └── items.dto.ts                # DTO для items
+└── middleware/
+    ├── ApiError.ts                 # Клас помилки
+    ├── errorHandler.ts             # Централізований error handler
+    └── logger.ts                   # Логування запитів
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
 ```
 
 ---
@@ -255,6 +278,7 @@ npm run test:watch # режим перегляду (авто-перезапус�
 Тести знаходяться у `src/tests/`:
 - `items.service.test.ts` — 13 тестів для itemsService
 - `users.service.test.ts` — 7 тестів для usersService
+<<<<<<< HEAD
 
 # LR3 Схема БД
 
@@ -425,3 +449,5 @@ WHERE text LIKE '%<ввід користувача>%'
 ?q=' OR '1'='1
 →  WHERE text LIKE '%' OR '1'='1%'
 ```
+=======
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b

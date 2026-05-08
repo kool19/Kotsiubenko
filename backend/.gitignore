@@ -1,4 +1,5 @@
 node_modules/
+<<<<<<< HEAD
 dist/
 
 data/
@@ -8,3 +9,5 @@ data/
 # Env
 .env
 .env.local
+=======
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b

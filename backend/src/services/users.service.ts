@@ -7,6 +7,7 @@ import {
   UserResponseDto,
 } from "../dtos/users.dto";
 
+<<<<<<< HEAD
 function toResponseDto(user: {
   id: string;
   name: string;
@@ -14,6 +15,16 @@ function toResponseDto(user: {
   createdAt: string;
 }): UserResponseDto {
   return { id: user.id, name: user.name, email: user.email, createdAt: user.createdAt };
+=======
+function toResponseDto(user: ReturnType<typeof usersRepository.getById>): UserResponseDto {
+  if (!user) throw new ApiError(404, "NOT_FOUND", "User not found");
+  return {
+    id: user.id,
+    name: user.name,
+    email: user.email,
+    createdAt: user.createdAt,
+  };
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
 }
 
 function validateCreate(dto: CreateUserRequestDto): void {
@@ -37,6 +48,7 @@ function validateCreate(dto: CreateUserRequestDto): void {
 }
 
 export const usersService = {
+<<<<<<< HEAD
   async getAll(): Promise<{ items: UserResponseDto[]; total: number }> {
     const users = await usersRepository.getAll();
     return { items: users.map(toResponseDto), total: users.length };
@@ -44,19 +56,38 @@ export const usersService = {
 
   async getById(id: string): Promise<UserResponseDto> {
     const user = await usersRepository.getById(id);
+=======
+  getAll(): UserResponseDto[] {
+    return usersRepository.getAll().map(toResponseDto);
+  },
+
+  getById(id: string): UserResponseDto {
+    const user = usersRepository.getById(id);
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
     if (!user) throw new ApiError(404, "NOT_FOUND", "User not found");
     return toResponseDto(user);
   },
 
+<<<<<<< HEAD
   async create(dto: CreateUserRequestDto): Promise<UserResponseDto> {
     validateCreate(dto);
     const entity = await usersRepository.add({
       name:  dto.name.trim(),
       email: dto.email.trim().toLowerCase(),
+=======
+  create(dto: CreateUserRequestDto): UserResponseDto {
+    validateCreate(dto);
+    const entity = usersRepository.add({
+      id: uuidv4(),
+      name: dto.name.trim(),
+      email: dto.email.trim().toLowerCase(),
+      createdAt: new Date().toISOString(),
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
     });
     return toResponseDto(entity);
   },
 
+<<<<<<< HEAD
   async update(id: string, dto: UpdateUserRequestDto): Promise<UserResponseDto> {
     if (!(await usersRepository.getById(id))) {
       throw new ApiError(404, "NOT_FOUND", "User not found");
@@ -76,3 +107,22 @@ export const usersService = {
   },
 };
 export { uuidv4 };
+=======
+  update(id: string, dto: UpdateUserRequestDto): UserResponseDto {
+    if (!usersRepository.getById(id)) {
+      throw new ApiError(404, "NOT_FOUND", "User not found");
+    }
+    validateCreate(dto);
+    const updated = usersRepository.update(id, {
+      name: dto.name.trim(),
+      email: dto.email.trim().toLowerCase(),
+    });
+    return toResponseDto(updated);
+  },
+
+  remove(id: string): void {
+    const deleted = usersRepository.remove(id);
+    if (!deleted) throw new ApiError(404, "NOT_FOUND", "User not found");
+  },
+};
+>>>>>>> e82abfd8a9042363d87203a1bb54d06388a5c52b
